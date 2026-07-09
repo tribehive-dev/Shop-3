@@ -1,4 +1,5 @@
-
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8745527260470621"
+     crossorigin="anonymous"></script>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
