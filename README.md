@@ -137,8 +137,8 @@
   footer a { color: var(--amber-light); text-decoration: none; }
   .wa-footer { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--amber-light); }
 
-.cart-overlay { display: none !important; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.5); }
-.cart-overlay.open { display: flex !important; justify-content: flex-end; }
+.cart-overlay { visibility: hidden; opacity: 0; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.5); pointer-events: none; }
+.cart-overlay.open { visibility: visible; opacity: 1; display: flex; justify-content: flex-end; pointer-events: all; }
   .cart-panel { background: var(--cream); width: min(420px,100vw); height: 100vh; overflow-y: auto; padding: 2rem; animation: slideIn 0.3s ease; }
   @keyframes slideIn { from{transform:translateX(100%)} to{transform:translateX(0)} }
   .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
