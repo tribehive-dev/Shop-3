@@ -269,7 +269,7 @@
     <div class="step">
       <div class="step-num">2</div>
       <h4>Pay via Opay</h4>
-      <p>Send payment to <strong>7034529060</strong><br>Chinyere Breath Ihegazie</p>
+      <p>Send payment to <strong>6572638060</strong><br>Chinyere Breath Ihegazie</p>
       <a class="opay-btn" href="https://opayweb.com" target="_blank">
         <span class="opay-circle">O</span> Pay on Opay
       </a>
@@ -399,7 +399,7 @@
     if (!cart.length) return;
     const total = cart.reduce((s,c) => s+c.price*c.qty, 0);
     const items = cart.map(c => `${c.name} (${c.size}) x${c.qty} — ₦${(c.price*c.qty).toLocaleString()}`).join('\n');
-    const msg = `Hello Tribe Hive! I'd like to order:\n\n${items}\n\nTotal: ₦${total.toLocaleString()} (Delivery Inclusive)\n\nI will send my payment receipt after paying via Opay to 7034529060 (Chinyere Breath Ihegazie).\n\nMy delivery address: `;
+    const msg = `Hello Tribe Hive! I'd like to order:\n\n${items}\n\nTotal: ₦${total.toLocaleString()} (Delivery Inclusive)\n\nI will send my payment receipt after paying via Opay to 6572638060 (Chinyere Breath Ihegazie).\n\nMy delivery address: `;
     window.open(`https://wa.me/2347034529060?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
