@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -270,9 +270,15 @@
       <div class="step-num">2</div>
       <h4>Pay via Opay</h4>
       <p>Send payment to <strong>6572638060</strong><br>Chinyere Breath Ihegazie</p>
-      <a class="opay-btn" href="https://opayweb.com" target="_blank">
+      <a class="opay-btn" href="https://wa.me/2347034529060?text=Hello%20Tribe%20Hive!%20I%20want%20to%20make%20a%20payment%20via%20Opay.%20Please%20confirm%20your%20Opay%20account%20details." target="_blank">
         <span class="opay-circle">O</span> Pay on Opay
       </a>
+      <div style="margin-top:0.75rem;background:rgba(255,102,0,0.1);border:1px solid #FF6600;border-radius:12px;padding:0.75rem;text-align:left;">
+        <p style="font-size:0.78rem;font-weight:700;color:#FF6600;margin-bottom:0.25rem">Opay Business Account:</p>
+        <p style="font-size:0.85rem;font-weight:700;color:var(--brown-deep)">Account No: <strong>6572638060</strong></p>
+        <p style="font-size:0.82rem;color:var(--brown-deep)">Name: <strong>Chinyere Breath Ihegazie</strong></p>
+        <p style="font-size:0.78rem;color:#7C3B1E;margin-top:0.25rem">After payment, send receipt to WhatsApp for confirmation.</p>
+      </div>
     </div>
     <div class="step">
       <div class="step-num">3</div>
