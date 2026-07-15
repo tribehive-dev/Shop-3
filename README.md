@@ -191,7 +191,7 @@
     <!-- YOUR TRIBE HIVE PHOTO — upload to imgbb.com and replace this src -->
     <img src="https://i.ibb.co/7JwHjr1F/file-00000000002871f48bbfde27c0381cac.png"
       onerror="this.style.display='none'"
-      alt="Tribe Hive — 2 Litres, 1 Litre, 75cl">
+      alt="Tribe Hive — 1.5 Litres, 1 Litre, 75cl">
   </div>
 </section>
 
@@ -264,7 +264,7 @@
     <div class="step">
       <div class="step-num">1</div>
       <h4>Choose Your Size</h4>
-      <p>Pick from 75cl, 1 Litre, or 2 Litres. All prices include delivery anywhere in Nigeria.</p>
+      <p>Pick from 75cl, 1 Litre, or 1.5 Litres. All prices include delivery anywhere in Nigeria.</p>
     </div>
     <div class="step">
       <div class="step-num">2</div>
@@ -326,7 +326,7 @@
     { id:2, name:"Tribe Hive Honey", size:"1 Litre", tag:"Most Popular", emoji:"🍯",
       bg:"linear-gradient(135deg,#F59E0B 0%,#B45309 60%,#78350F 100%)",
       desc:"Our best-selling size. Pure African honey for daily use — for health, cooking, or as a natural sweetener.", price:23000, stars:5 },
-    { id:3, name:"Tribe Hive Honey", size:"2 Litres", tag:"Best Value", emoji:"🍯",
+    { id:3, name:"Tribe Hive Honey", size:"1.5 Litres", tag:"Best Value", emoji:"🍯",
       bg:"linear-gradient(135deg,#B45309 0%,#78350F 50%,#451A03 100%)",
       desc:"Family size. Stock up on the purest African honey — ideal for families, gifting, or daily health routines.", price:35000, stars:5 }
   ];
