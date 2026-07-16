@@ -269,12 +269,13 @@
     <div class="step">
       <div class="step-num">2</div>
       <h4>Pay via Opay</h4>
-      <p>Send payment to <strong>6572638060</strong><br>Chinyere Breath Ihegazie</p>
-      <a class="opay-btn" href="https://wa.me/2347034529060?text=Hello%20Tribe%20Hive!%20I%20want%20to%20make%20a%20payment%20via%20Opay.%20Please%20confirm%20your%20Opay%20account%20details." target="_blank">
-        <span class="opay-circle">O</span> Pay on Opay
+      <p>Send payment to <strong>7034529060</strong><br>Chinyere Breath Ihegazie</p>
+      <a class="opay-btn" href="https://opayweb.com" target="_blank">
+        <img src="https://i.ibb.co/rSf9Gfm/a53b3bcfe00067e98812f7a247b67cfc.png" style="width:24px;height:24px;object-fit:contain;background:white;border-radius:50%;padding:2px;" alt="Opay">
+        Pay with Opay
       </a>
-      <div style="margin-top:0.75rem;background:rgba(255,102,0,0.1);border:1px solid #FF6600;border-radius:12px;padding:0.75rem;text-align:left;">
-        <p style="font-size:0.78rem;font-weight:700;color:#FF6600;margin-bottom:0.25rem">Opay Business Account:</p>
+      <div style="margin-top:0.75rem;background:#f0fff8;border:1px solid #00A859;border-radius:12px;padding:0.75rem;text-align:left;">
+        <p style="font-size:0.78rem;font-weight:700;color:#00A859;margin-bottom:0.25rem">Opay Business Account:</p>
         <p style="font-size:0.85rem;font-weight:700;color:var(--brown-deep)">Account No: <strong>6572638060</strong></p>
         <p style="font-size:0.82rem;color:var(--brown-deep)">Name: <strong>Chinyere Breath Ihegazie</strong></p>
         <p style="font-size:0.78rem;color:#7C3B1E;margin-top:0.25rem">After payment, send receipt to WhatsApp for confirmation.</p>
@@ -405,7 +406,7 @@
     if (!cart.length) return;
     const total = cart.reduce((s,c) => s+c.price*c.qty, 0);
     const items = cart.map(c => `${c.name} (${c.size}) x${c.qty} — ₦${(c.price*c.qty).toLocaleString()}`).join('\n');
-    const msg = `Hello Tribe Hive! I'd like to order:\n\n${items}\n\nTotal: ₦${total.toLocaleString()} (Delivery Inclusive)\n\nI will send my payment receipt after paying via Opay to 6572638060 (Chinyere Breath Ihegazie).\n\nMy delivery address: `;
+    const msg = `Hello Tribe Hive! I'd like to order:\n\n${items}\n\nTotal: ₦${total.toLocaleString()} (Delivery Inclusive)\n\nI will send my payment receipt after paying via Opay to 7034529060 (Chinyere Breath Ihegazie).\n\nMy delivery address: `;
     window.open(`https://wa.me/2347034529060?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
