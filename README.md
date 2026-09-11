@@ -105,12 +105,12 @@
   .media-section { padding: 5rem 6vw; background: var(--cream-dark); }
   .media-header { text-align: center; margin-bottom: 3rem; }
   .media-header p { color: #6B3B1A; font-size: 1rem; margin-top: 0.75rem; font-weight: 300; }
-  .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 960px; margin: 0 auto; }
+  .media-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
   .media-card { border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(180,83,9,0.15); border: 1.5px solid #FDE68A; background: white; }
-  .media-card img { width: 100%; height: 320px; object-fit: cover; display: block; }
-  .media-card iframe { width: 100%; height: 320px; border: none; display: block; }
+  .media-card img { width: 100%; height: 280px; object-fit: cover; display: block; }
+  .media-card iframe { width: 100%; height: 280px; border: none; display: block; }
   .media-card-body { padding: 1rem 1.25rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
-  .media-card-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--brown-deep); }
+  .media-card-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--brown-deep); }
   .yt-btn {
     display: inline-flex; align-items: center; gap: 0.5rem;
     background: #FF0000; color: white;
@@ -119,7 +119,7 @@
     transition: background 0.2s, transform 0.15s;
   }
   .yt-btn:hover { background: #cc0000; transform: scale(1.04); }
-  @media (max-width: 768px) { .media-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .media-grid { grid-template-columns: 1fr; } }
 
   .why-section { background: var(--brown-deep); padding: 6rem 6vw; color: var(--cream); }
   .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; max-width: 1100px; margin: 0 auto; }
@@ -239,11 +239,18 @@
     <p>Watch our video and see the pure quality of Tribe Hive Honey for yourself.</p>
   </div>
   <div class="media-grid">
-    <!-- New Photo -->
+    <!-- Photo 1 -->
     <div class="media-card">
       <img src="https://i.ibb.co/gbDLMSJt/IMG-20260720-WA0011.jpg" alt="Tribe Hive Honey">
       <div class="media-card-body">
         <div class="media-card-title">🍯 Pure Tribe Hive Honey</div>
+      </div>
+    </div>
+    <!-- Photo 2 — New Family Image -->
+    <div class="media-card">
+      <img src="https://i.ibb.co/pvqTLbNP/file-00000000045881f4b5fd891a547fc512.png" alt="Tribe Hive Honey — Your Right Choice for Healthy Family">
+      <div class="media-card-body">
+        <div class="media-card-title">🏡 Your Right Choice for Healthy Family</div>
       </div>
     </div>
     <!-- YouTube Video -->
