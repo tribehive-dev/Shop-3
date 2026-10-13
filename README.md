@@ -641,16 +641,30 @@
     window.open(`https://wa.me/2347034529060?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
-  // REVIEWS — Persistent Storage
-  let userReviews = [];
+  // SUPABASE CONFIG
+  const SUPABASE_URL = 'https://bjxweknvekkmqzixwgns.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJqeHdla252ZWtrbXF6aXh3Z25zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4NTIxOTAsImV4cCI6MjEwNzQyODE5MH0.44jqR3vA935r5jGru-Sx0K3nn7U31KtAco0wE2IyFfo';
+
+  async function dbFetch(path, options = {}) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': options.prefer || ''
+      },
+      ...options
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return options.method === 'POST' ? res : res.json();
+  }  let userReviews = [];
 
   async function loadReviews() {
     try {
-      const result = await window.storage.get('tribehive-reviews');
-      if (result && result.value) {
-        userReviews = JSON.parse(result.value);
-      }
+      const data = await dbFetch('reviews?order=created_at.desc');
+      userReviews = data;
     } catch(e) {
+      console.log('Error loading reviews:', e);
       userReviews = [];
     }
     renderAllReviews();
@@ -658,11 +672,16 @@
     renderHomeReviews();
   }
 
-  async function saveReviews() {
+  async function saveReviews(review) {
     try {
-      await window.storage.set('tribehive-reviews', JSON.stringify(userReviews), true);
+      await dbFetch('reviews', {
+        method: 'POST',
+        prefer: 'return=minimal',
+        body: JSON.stringify(review)
+      });
     } catch(e) {
-      console.log('Storage error:', e);
+      console.log('Error saving review:', e);
+      throw e;
     }
   }
 
@@ -688,7 +707,7 @@
           </div>
           <div class="review-stars" style="color:var(--amber-light)">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
         </div>
-        <div class="review-text">"${r.text}"</div>
+        <div class="review-text">"${r.review_text || r.text}"</div>
         <span class="review-product-tag">🍯 ${r.product}</span>
       </div>`).join('');
   }
@@ -699,15 +718,14 @@
       grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#9CA3AF;padding:2rem;font-size:0.95rem;"><div style="font-size:2rem;margin-bottom:0.5rem">🍯</div>No reviews yet — be the first to share your experience!</div>`;
       return;
     }
-    // Show latest 3 on home page
-    const latest = userReviews.slice().reverse().slice(0, 3);
+    const latest = userReviews.slice(0, 3);
     grid.innerHTML = latest.map(r => `
       <div class="review-mini-card">
         <div class="stars">${'★'.repeat(r.rating)}</div>
-        <p>"${r.text.length > 100 ? r.text.slice(0,100)+'...' : r.text}"</p>
+        <p>"${(r.review_text || r.text || '').slice(0,100)}${(r.review_text || r.text || '').length > 100 ? '...' : ''}"</p>
         <div class="reviewer">
           <div class="avatar" style="background:var(--amber-glow);font-size:0.75rem;font-weight:700;color:var(--brown-deep)">${r.initials}</div>
-          <div><div class="reviewer-name">${r.name}</div><div class="reviewer-loc">${r.loc}</div></div>
+          <div><div class="reviewer-name">${r.name}</div><div class="reviewer-loc">${r.location || r.loc}</div></div>
         </div>
       </div>`).join('');
   }
@@ -755,23 +773,30 @@
     const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
     const now = new Date();
     const date = now.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
-    const review = { name, loc: loc || 'Nigeria', product, text, rating: selectedRating, initials, date };
-    userReviews.push(review);
-    await saveReviews();
-    renderAllReviews();
-    updateRatingSummary();
-    renderHomeReviews();
-    // Reset form
-    document.getElementById('r-name').value = '';
-    document.getElementById('r-loc').value = '';
-    document.getElementById('r-text').value = '';
-    selectedRating = 0;
-    document.querySelectorAll('#star-rating span').forEach(s => s.classList.remove('active'));
-    const success = document.getElementById('review-success');
-    success.style.display = 'block';
-    setTimeout(() => success.style.display = 'none', 4000);
-    // Scroll to new review
-    setTimeout(() => document.getElementById('reviews-list').scrollIntoView({behavior:'smooth'}), 300);
+    const review = { name, location: loc || 'Nigeria', product, review_text: text, rating: selectedRating, initials, date };
+    const btn = document.querySelector('.submit-review-btn');
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+    try {
+      await saveReviews(review);
+      userReviews.unshift({...review, text: review.review_text});
+      renderAllReviews();
+      updateRatingSummary();
+      renderHomeReviews();
+      document.getElementById('r-name').value = '';
+      document.getElementById('r-loc').value = '';
+      document.getElementById('r-text').value = '';
+      selectedRating = 0;
+      document.querySelectorAll('#star-rating span').forEach(s => s.classList.remove('active'));
+      const success = document.getElementById('review-success');
+      success.style.display = 'block';
+      setTimeout(() => success.style.display = 'none', 4000);
+      setTimeout(() => document.getElementById('reviews-list').scrollIntoView({behavior:'smooth'}), 300);
+    } catch(e) {
+      alert('Error submitting review. Please try again!');
+    }
+    btn.textContent = 'Submit Review ⭐';
+    btn.disabled = false;
   }
 
   function showToast(msg) {
