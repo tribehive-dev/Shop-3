@@ -340,21 +340,10 @@
   <section class="reviews-preview">
     <div class="section-label">Happy Customers</div>
     <h2 class="section-title">What People Are Saying</h2>
-    <div class="reviews-mini-grid">
-      <div class="review-mini-card">
-        <div class="stars">★★★★★</div>
-        <p>"This honey from Tribe Hive blew my mind — thick, dark, and incredibly aromatic. The genuine article!"</p>
-        <div class="reviewer"><div class="avatar">👩🏾</div><div><div class="reviewer-name">Amaka O.</div><div class="reviewer-loc">Enugu, Nigeria</div></div></div>
-      </div>
-      <div class="review-mini-card">
-        <div class="stars">★★★★★</div>
-        <p>"Within weeks I noticed real improvement. Delivery was fast and there were no extra charges!"</p>
-        <div class="reviewer"><div class="avatar">👨🏾</div><div><div class="reviewer-name">Emeka A.</div><div class="reviewer-loc">Anambra, Nigeria</div></div></div>
-      </div>
-      <div class="review-mini-card">
-        <div class="stars">★★★★★</div>
-        <p>"I ordered multiple bottles as gifts. Everyone loved it. You can taste the purity!"</p>
-        <div class="reviewer"><div class="avatar">👩🏿</div><div><div class="reviewer-name">Fatima B.</div><div class="reviewer-loc">Abuja, Nigeria</div></div></div>
+    <div class="reviews-mini-grid" id="home-reviews-grid">
+      <div style="grid-column:1/-1;text-align:center;color:#9CA3AF;padding:2rem;font-size:0.95rem;">
+        <div style="font-size:2rem;margin-bottom:0.5rem">🍯</div>
+        No reviews yet — be the first to share your experience!
       </div>
     </div>
     <button class="view-reviews-btn" onclick="showPage('reviews')">⭐ Read All Reviews & Leave Yours →</button>
@@ -497,31 +486,11 @@
       </div>
     </div>
 
-    <!-- EXISTING REVIEWS -->
+    <!-- REVIEWS LIST -->
     <div class="reviews-list" id="reviews-list">
-      <div class="review-card">
-        <div class="review-card-header">
-          <div class="reviewer-info"><div class="reviewer-avatar">AO</div><div class="reviewer-details"><div class="name">Amaka O.</div><div class="date">Enugu, Nigeria</div></div></div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-        <div class="review-text">"I have been searching for real honey for years. This honey from Tribe Hive blew my mind — thick, dark, and incredibly aromatic. This is the genuine article."</div>
-        <span class="review-product-tag">🍯 Tribe Hive Honey — 1 Litre</span>
-      </div>
-      <div class="review-card">
-        <div class="review-card-header">
-          <div class="reviewer-info"><div class="reviewer-avatar">EA</div><div class="reviewer-details"><div class="name">Emeka A.</div><div class="date">Anambra, Nigeria</div></div></div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-        <div class="review-text">"My doctor recommended raw honey. I tried Tribe Hive — within weeks I noticed real improvement. Delivery was fast and there were no extra charges!"</div>
-        <span class="review-product-tag">🍯 Tribe Hive Honey — 75cl</span>
-      </div>
-      <div class="review-card">
-        <div class="review-card-header">
-          <div class="reviewer-info"><div class="reviewer-avatar">FB</div><div class="reviewer-details"><div class="name">Fatima B.</div><div class="date">Abuja, Nigeria</div></div></div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-        <div class="review-text">"I ordered multiple bottles as gifts. Everyone loved it and several have reordered. You can taste the purity — absolutely wonderful honey."</div>
-        <span class="review-product-tag">🍯 Tribe Hive Honey — 1.5 Litres</span>
+      <div style="text-align:center;color:#9CA3AF;padding:2rem;font-size:0.95rem;" id="no-reviews-msg">
+        <div style="font-size:2.5rem;margin-bottom:0.75rem">🍯</div>
+        No reviews yet. Be the first to share your experience!
       </div>
     </div>
 
@@ -672,9 +641,100 @@
     window.open(`https://wa.me/2347034529060?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
-  // REVIEWS
-  let selectedRating = 0;
+  // REVIEWS — Persistent Storage
   let userReviews = [];
+
+  async function loadReviews() {
+    try {
+      const result = await window.storage.get('tribehive-reviews');
+      if (result && result.value) {
+        userReviews = JSON.parse(result.value);
+      }
+    } catch(e) {
+      userReviews = [];
+    }
+    renderAllReviews();
+    updateRatingSummary();
+    renderHomeReviews();
+  }
+
+  async function saveReviews() {
+    try {
+      await window.storage.set('tribehive-reviews', JSON.stringify(userReviews), true);
+    } catch(e) {
+      console.log('Storage error:', e);
+    }
+  }
+
+  function renderAllReviews() {
+    const list = document.getElementById('reviews-list');
+    const noMsg = document.getElementById('no-reviews-msg');
+    if (!userReviews.length) {
+      if (noMsg) noMsg.style.display = 'block';
+      return;
+    }
+    if (noMsg) noMsg.style.display = 'none';
+    // Show all reviews, newest first
+    const visibleReviews = userReviews.slice().reverse();
+    list.innerHTML = visibleReviews.map((r, i) => `
+      <div class="review-card" id="review-${i}">
+        <div class="review-card-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar" style="background:var(--amber-glow)">${r.initials}</div>
+            <div class="reviewer-details">
+              <div class="name">${r.name}</div>
+              <div class="date">${r.loc} · ${r.date}</div>
+            </div>
+          </div>
+          <div class="review-stars" style="color:var(--amber-light)">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+        </div>
+        <div class="review-text">"${r.text}"</div>
+        <span class="review-product-tag">🍯 ${r.product}</span>
+      </div>`).join('');
+  }
+
+  function renderHomeReviews() {
+    const grid = document.getElementById('home-reviews-grid');
+    if (!userReviews.length) {
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#9CA3AF;padding:2rem;font-size:0.95rem;"><div style="font-size:2rem;margin-bottom:0.5rem">🍯</div>No reviews yet — be the first to share your experience!</div>`;
+      return;
+    }
+    // Show latest 3 on home page
+    const latest = userReviews.slice().reverse().slice(0, 3);
+    grid.innerHTML = latest.map(r => `
+      <div class="review-mini-card">
+        <div class="stars">${'★'.repeat(r.rating)}</div>
+        <p>"${r.text.length > 100 ? r.text.slice(0,100)+'...' : r.text}"</p>
+        <div class="reviewer">
+          <div class="avatar" style="background:var(--amber-glow);font-size:0.75rem;font-weight:700;color:var(--brown-deep)">${r.initials}</div>
+          <div><div class="reviewer-name">${r.name}</div><div class="reviewer-loc">${r.loc}</div></div>
+        </div>
+      </div>`).join('');
+  }
+
+  function updateRatingSummary() {
+    const total = userReviews.length;
+    if (!total) return;
+    const avg = (userReviews.reduce((s,r) => s + r.rating, 0) / total).toFixed(1);
+    document.getElementById('avg-rating').textContent = avg;
+    document.getElementById('review-count').textContent = `${total} review${total !== 1 ? 's' : ''}`;
+    // Update bars
+    const counts = [5,4,3,2,1].map(n => userReviews.filter(r => r.rating === n).length);
+    const bars = document.querySelectorAll('.bar-fill');
+    const barCounts = document.querySelectorAll('.rating-bar-row span:last-child');
+    counts.forEach((c, i) => {
+      if (bars[i]) bars[i].style.width = total ? (c/total*100)+'%' : '0%';
+      if (barCounts[i]) barCounts[i].textContent = c;
+    });
+    // Update stars display
+    const starEl = document.querySelector('.rating-big .stars');
+    if (starEl) {
+      const rounded = Math.round(avg);
+      starEl.textContent = '★'.repeat(rounded) + '☆'.repeat(5-rounded);
+    }
+  }
+
+  let selectedRating = 0;
 
   function setRating(n) {
     selectedRating = n;
@@ -683,19 +743,25 @@
     });
   }
 
-  function submitReview() {
+  async function submitReview() {
     const name = document.getElementById('r-name').value.trim();
     const loc = document.getElementById('r-loc').value.trim();
     const product = document.getElementById('r-product').value;
     const text = document.getElementById('r-text').value.trim();
     if (!name || !text || !selectedRating) {
-      alert('Please fill in your name, review, and select a rating!');
+      alert('Please fill in your name, review, and select a star rating!');
       return;
     }
     const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
-    const review = { name, loc: loc || 'Nigeria', product, text, rating: selectedRating, initials };
-    userReviews.unshift(review);
-    renderNewReview(review);
+    const now = new Date();
+    const date = now.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+    const review = { name, loc: loc || 'Nigeria', product, text, rating: selectedRating, initials, date };
+    userReviews.push(review);
+    await saveReviews();
+    renderAllReviews();
+    updateRatingSummary();
+    renderHomeReviews();
+    // Reset form
     document.getElementById('r-name').value = '';
     document.getElementById('r-loc').value = '';
     document.getElementById('r-text').value = '';
@@ -704,22 +770,8 @@
     const success = document.getElementById('review-success');
     success.style.display = 'block';
     setTimeout(() => success.style.display = 'none', 4000);
-  }
-
-  function renderNewReview(r) {
-    const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
-    const card = document.createElement('div');
-    card.className = 'review-card';
-    card.style.border = '2px solid var(--amber-light)';
-    card.innerHTML = `
-      <div class="review-card-header">
-        <div class="reviewer-info"><div class="reviewer-avatar" style="background:var(--amber-glow)">${r.initials}</div><div class="reviewer-details"><div class="name">${r.name}</div><div class="date">${r.loc}</div></div></div>
-        <div class="review-stars" style="color:var(--amber-light)">${stars}</div>
-      </div>
-      <div class="review-text">"${r.text}"</div>
-      <span class="review-product-tag">🍯 ${r.product}</span>`;
-    const list = document.getElementById('reviews-list');
-    list.insertBefore(card, list.firstChild);
+    // Scroll to new review
+    setTimeout(() => document.getElementById('reviews-list').scrollIntoView({behavior:'smooth'}), 300);
   }
 
   function showToast(msg) {
@@ -729,6 +781,7 @@
   }
 
   renderProducts();
+  loadReviews();
 </script>
 </body>
 </html>
