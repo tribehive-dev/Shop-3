@@ -282,6 +282,7 @@
     <li><a onclick="showPage('home'); setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),100)">Shop</a></li>
     <li><a onclick="showPage('media')">Gallery</a></li>
     <li><a onclick="showPage('reviews')">Reviews</a></li>
+  <li><a onclick="showPage('blog')">Blog & FAQ</a></li>
   </ul>
   <button class="cart-btn" onclick="openCart()">🛒 Cart <span id="cart-count">0</span></button>
 </nav>
@@ -535,7 +536,292 @@
   </section>
 </div><!-- END REVIEWS PAGE -->
 
-<!-- CART -->
+<!-- ========== BLOG & FAQ PAGE ========== -->
+<div class="page" id="page-blog">
+<style>
+  .blog-page { padding: 100px 6vw 5rem; min-height: 100vh; background: var(--cream); }
+  .blog-hero { background: linear-gradient(135deg, var(--brown-deep), var(--brown)); padding: 3rem 2rem; border-radius: 20px; text-align: center; margin-bottom: 3rem; }
+  .blog-hero h1 { font-family: 'Playfair Display', serif; color: var(--amber-glow); font-size: clamp(1.8rem,4vw,2.8rem); margin-bottom: 0.75rem; }
+  .blog-hero p { color: #D6B89A; font-weight: 300; font-size: 1rem; }
+  .blog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 1000px; margin: 0 auto 4rem; }
+  .blog-card { background: white; border-radius: 20px; overflow: hidden; border: 1.5px solid #FDE68A; box-shadow: 0 8px 30px rgba(180,83,9,0.08); transition: transform 0.25s, box-shadow 0.25s; }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(180,83,9,0.15); }
+  .blog-card-img { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+  .blog-card-body { padding: 1.25rem; }
+  .blog-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--amber); margin-bottom: 0.4rem; }
+  .blog-card-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--brown-deep); margin-bottom: 0.6rem; line-height: 1.3; }
+  .blog-card-excerpt { font-size: 0.85rem; color: #7C3B1E; font-weight: 300; line-height: 1.6; margin-bottom: 1rem; }
+  .read-more-btn { font-size: 0.82rem; font-weight: 700; color: var(--amber); cursor: pointer; background: none; border: none; font-family: 'Inter', sans-serif; padding: 0; transition: color 0.2s; }
+  .read-more-btn:hover { color: var(--brown); }
+
+  /* FULL ARTICLE */
+  .article-view { display: none; max-width: 800px; margin: 0 auto; }
+  .article-view.show { display: block; }
+  .blog-grid-view { display: block; }
+  .blog-grid-view.hide { display: none; }
+  .article-back { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--cream-dark); color: var(--brown); padding: 0.5rem 1.25rem; border-radius: 100px; font-size: 0.85rem; font-weight: 600; border: 1px solid #FDE68A; cursor: pointer; margin-bottom: 2rem; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+  .article-back:hover { background: var(--amber); color: white; }
+  .article-header { margin-bottom: 2rem; }
+  .article-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem,4vw,2.2rem); color: var(--brown-deep); margin-bottom: 0.75rem; line-height: 1.2; }
+  .article-meta { font-size: 0.82rem; color: #9CA3AF; margin-bottom: 1rem; }
+  .article-body { color: #4A2000; font-weight: 300; line-height: 1.9; font-size: 0.95rem; }
+  .article-body h2 { font-family: 'Playfair Display', serif; color: var(--brown-deep); font-size: 1.3rem; margin: 2rem 0 0.75rem; }
+  .article-body h3 { font-family: 'Playfair Display', serif; color: var(--amber); font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+  .article-body p { margin-bottom: 1rem; }
+  .article-body ul { margin: 0.75rem 0 1rem 1.5rem; }
+  .article-body ul li { margin-bottom: 0.4rem; }
+  .article-body .highlight { background: var(--cream-dark); border-left: 4px solid var(--amber); padding: 1rem 1.25rem; border-radius: 0 12px 12px 0; margin: 1.5rem 0; font-style: italic; }
+  .article-cta { background: linear-gradient(135deg, var(--brown-deep), var(--brown)); border-radius: 16px; padding: 1.75rem; text-align: center; margin-top: 2.5rem; }
+  .article-cta h3 { font-family: 'Playfair Display', serif; color: var(--amber-glow); margin-bottom: 0.5rem; }
+  .article-cta p { color: #D6B89A; font-size: 0.9rem; margin-bottom: 1rem; font-weight: 300; }
+
+  /* FAQ */
+  .faq-section { max-width: 800px; margin: 0 auto; }
+  .faq-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem,3vw,2rem); color: var(--brown-deep); text-align: center; margin-bottom: 2rem; }
+  .faq-item { background: white; border-radius: 16px; border: 1.5px solid #FDE68A; margin-bottom: 1rem; overflow: hidden; }
+  .faq-question { padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; color: var(--brown-deep); font-size: 0.95rem; transition: background 0.2s; }
+  .faq-question:hover { background: var(--cream-dark); }
+  .faq-icon { font-size: 1.2rem; color: var(--amber); transition: transform 0.3s; flex-shrink: 0; margin-left: 1rem; }
+  .faq-icon.open { transform: rotate(45deg); }
+  .faq-answer { display: none; padding: 0 1.5rem 1.25rem; color: #7C3B1E; font-weight: 300; line-height: 1.8; font-size: 0.9rem; }
+  .faq-answer.open { display: block; }
+
+  @media (max-width: 768px) { .blog-grid { grid-template-columns: 1fr; } }
+</style>
+
+<section class="blog-page">
+  <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+
+  <!-- BLOG GRID VIEW -->
+  <div class="blog-grid-view" id="blog-grid-view">
+    <div class="blog-hero">
+      <h1>🍯 Honey Knowledge Hub</h1>
+      <p>Everything you need to know about pure African honey — health benefits, tips, and more.</p>
+    </div>
+
+    <div style="text-align:center;margin-bottom:2rem">
+      <div class="section-label">Our Blog</div>
+      <h2 class="section-title">Latest Articles</h2>
+    </div>
+
+    <div class="blog-grid">
+      <div class="blog-card">
+        <div class="blog-card-img" style="background:linear-gradient(135deg,#FDE68A,#F59E0B)">🍯</div>
+        <div class="blog-card-body">
+          <div class="blog-tag">Health & Wellness</div>
+          <div class="blog-card-title">10 Proven Health Benefits of Raw African Honey</div>
+          <div class="blog-card-excerpt">Raw African honey is more than a sweetener — it's a powerful natural remedy used for centuries. Discover the top 10 science-backed benefits...</div>
+          <button class="read-more-btn" onclick="showArticle('article1')">Read More →</button>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-card-img" style="background:linear-gradient(135deg,#D97706,#92400E)">🌿</div>
+        <div class="blog-card-body">
+          <div class="blog-tag">Nutrition</div>
+          <div class="blog-card-title">Raw Honey vs Processed Honey: What's the Difference?</div>
+          <div class="blog-card-excerpt">Not all honey is created equal. Learn why raw, unfiltered African honey is far superior to the processed honey sold in supermarkets...</div>
+          <button class="read-more-btn" onclick="showArticle('article2')">Read More →</button>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-card-img" style="background:linear-gradient(135deg,#166534,#14532D)">💊</div>
+        <div class="blog-card-body">
+          <div class="blog-tag">Natural Remedies</div>
+          <div class="blog-card-title">How to Use Honey as a Natural Medicine at Home</div>
+          <div class="blog-card-excerpt">From sore throats to skin care, honey has incredible medicinal properties. Here are practical ways to use raw honey as medicine...</div>
+          <button class="read-more-btn" onclick="showArticle('article3')">Read More →</button>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-card-img" style="background:linear-gradient(135deg,#B45309,#451A03)">🇳🇬</div>
+        <div class="blog-card-body">
+          <div class="blog-tag">African Honey</div>
+          <div class="blog-card-title">Why Nigerian Honey is Among the Best in the World</div>
+          <div class="blog-card-excerpt">Nigeria's diverse flora gives its honey a unique richness and potency. Discover what makes Nigerian beekeeping special and why our honey stands out...</div>
+          <button class="read-more-btn" onclick="showArticle('article4')">Read More →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ SECTION -->
+    <div class="faq-section">
+      <div style="text-align:center;margin-bottom:0.5rem"><div class="section-label">Got Questions?</div></div>
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Is Tribe Hive Honey 100% pure and natural? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Yes! Tribe Hive Honey is 100% pure, raw, and unfiltered. We source directly from trusted Nigerian beekeepers and do not add any sugar, preservatives, or artificial ingredients. What you get is exactly what the bees made — nothing more, nothing less.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Why does my honey look dark or crystallized? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Dark color and crystallization are actually signs of REAL, high-quality raw honey! Crystallization happens naturally when glucose in the honey separates — it does NOT mean the honey has gone bad. To return it to liquid form, simply place the bottle in warm water for a few minutes. Never microwave honey as this destroys its nutrients.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">How long does Tribe Hive Honey last? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Pure raw honey never expires! Archaeologists have found honey in ancient Egyptian tombs that was still perfectly edible after thousands of years. Tribe Hive Honey, when stored properly in a cool, dry place with the lid tightly sealed, will last indefinitely. Always use a clean, dry spoon to avoid introducing moisture.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Do you deliver to my state in Nigeria? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Yes! We deliver to ALL states across Nigeria. Delivery is already included in the price — there are no hidden charges. For Enugu State, delivery is faster (usually same day or next day). For other states, delivery typically takes 2–4 business days via our trusted courier partners.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">Can babies eat Tribe Hive Honey? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Honey should NOT be given to babies under 12 months of age. This is because raw honey can contain Clostridium botulinum spores which, while harmless to older children and adults, can cause infant botulism in babies under one year. For children above 12 months and adults, Tribe Hive Honey is completely safe and very beneficial.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">How do I pay for my order? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">We accept payment via Opay. Simply send payment to our Opay business account number 6572638060 (Chinyere Breath Ihegazie), then send your payment receipt and delivery address to our WhatsApp number 07034529060 for order confirmation and dispatch.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">What are the health benefits of raw honey? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Raw honey has numerous health benefits including: boosting immunity, soothing sore throats and coughs, aiding digestion, promoting wound healing, improving sleep, providing natural energy, supporting heart health, acting as an antioxidant, helping with ulcers, and nourishing the skin. It contains vitamins, minerals, enzymes, and antioxidants that are destroyed in processed honey.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">How should I store my honey? <span class="faq-icon">+</span></div>
+        <div class="faq-answer">Store your Tribe Hive Honey at room temperature, away from direct sunlight and heat. Keep the lid tightly closed and always use a clean, dry spoon. Do not refrigerate honey as this speeds up crystallization. Avoid storing near the stove or in hot areas. A kitchen cupboard or pantry is ideal.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE VIEWS -->
+  <div class="article-view" id="article1">
+    <button class="article-back" onclick="showBlogGrid()">← Back to Blog</button>
+    <div class="article-header">
+      <div class="blog-tag">Health & Wellness</div>
+      <h1>10 Proven Health Benefits of Raw African Honey</h1>
+      <div class="article-meta">By Tribe Hive · Natural Health · 5 min read</div>
+    </div>
+    <div class="article-body">
+      <p>Raw African honey has been used as food and medicine for thousands of years. Unlike processed honey found in supermarkets, raw honey retains all its natural enzymes, antioxidants, vitamins, and minerals — making it one of nature's most powerful superfoods.</p>
+      <div class="highlight">"Let food be thy medicine and medicine be thy food." — Hippocrates, who frequently used honey in his treatments.</div>
+      <h2>1. Boosts Your Immune System</h2>
+      <p>Raw honey is rich in antioxidants including phenolic acids and flavonoids. These compounds help protect your body against free radicals and strengthen your immune system. Regular consumption of raw honey has been linked to fewer colds, flu, and infections.</p>
+      <h2>2. Soothes Sore Throats and Coughs</h2>
+      <p>Raw honey is one of the most effective natural remedies for sore throats and coughs. Its thick consistency coats the throat, while its antimicrobial properties fight infection. A tablespoon of raw honey with warm water and lemon is a time-tested remedy used across Nigeria and Africa.</p>
+      <h2>3. Heals Wounds and Burns</h2>
+      <p>Honey has powerful antibacterial properties. When applied to wounds, cuts, or burns, it creates a moist healing environment, prevents bacterial growth, and reduces inflammation. Medical-grade honey (Manuka) is even used in hospitals worldwide.</p>
+      <h2>4. Aids Digestion</h2>
+      <p>The enzymes in raw honey help break down food and improve digestion. It is particularly effective against H. pylori bacteria, which causes stomach ulcers. Many Nigerians take a spoonful of raw honey first thing in the morning to support their digestive health.</p>
+      <h2>5. Provides Natural Energy</h2>
+      <p>Honey contains natural sugars — glucose and fructose — that are easily absorbed by the body, providing a quick and sustained energy boost. It is an excellent pre-workout food and is used by athletes worldwide as a natural energy source.</p>
+      <h2>6. Improves Sleep Quality</h2>
+      <p>Taking a tablespoon of raw honey before bed helps stimulate the release of melatonin in the brain — the hormone responsible for sleep. It also helps replenish liver glycogen, preventing the brain from triggering stress hormones that can wake you up at night.</p>
+      <h2>7. Supports Heart Health</h2>
+      <p>Studies have shown that antioxidants in raw honey may help lower blood pressure, improve cholesterol levels, regulate heartbeat, and prevent cell death in the heart. Regular consumption as part of a balanced diet supports overall cardiovascular health.</p>
+      <h2>8. Natural Skin Care</h2>
+      <p>Honey's antimicrobial and moisturizing properties make it excellent for skin care. It can be used as a face mask to treat acne, dry skin, and eczema. Many people apply raw honey directly to their skin for a natural glow.</p>
+      <h2>9. Rich in Antioxidants</h2>
+      <p>Raw honey contains a wide range of antioxidants — organic acids and phenolic compounds like flavonoids. These antioxidants have been linked to reduced risk of heart attacks, strokes, and certain types of cancer.</p>
+      <h2>10. Helps Manage Ulcers</h2>
+      <p>One of the most celebrated uses of raw honey in Nigeria is for managing stomach and peptic ulcers. The antibacterial properties of raw honey inhibit the growth of H. pylori — the main cause of stomach ulcers — and help soothe the stomach lining.</p>
+      <div class="highlight">Important: While honey has many health benefits, it is not a substitute for medical treatment. Always consult your doctor for serious health conditions.</div>
+      <div class="article-cta">
+        <h3>🍯 Get Pure Raw Honey Today</h3>
+        <p>Experience all these benefits with Tribe Hive Honey — 100% pure, raw, and delivered to your door.</p>
+        <button class="btn-primary" onclick="showPage('home'); setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),100)">Shop Now →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-view" id="article2">
+    <button class="article-back" onclick="showBlogGrid()">← Back to Blog</button>
+    <div class="article-header">
+      <div class="blog-tag">Nutrition</div>
+      <h1>Raw Honey vs Processed Honey: What's the Difference?</h1>
+      <div class="article-meta">By Tribe Hive · Nutrition · 4 min read</div>
+    </div>
+    <div class="article-body">
+      <p>Walk into any supermarket in Nigeria and you'll find shelves full of honey. But is all honey the same? Absolutely not. The difference between raw honey and processed honey is enormous — and it matters for your health.</p>
+      <h2>What is Raw Honey?</h2>
+      <p>Raw honey is honey exactly as it exists in the beehive. It is extracted from the hive, strained to remove large particles like beeswax and dead bees, and bottled — nothing else added or removed. Tribe Hive Honey is raw honey.</p>
+      <h2>What is Processed Honey?</h2>
+      <p>Processed honey goes through pasteurization — it is heated to high temperatures (around 70°C or higher) to destroy yeast, improve appearance, and extend shelf life. It also goes through ultrafiltration which removes pollen, propolis, and other beneficial particles.</p>
+      <h2>Key Differences</h2>
+      <h3>🔬 Nutrients</h3>
+      <p>Raw honey retains all its natural enzymes, vitamins, minerals, antioxidants, and pollen. Processing destroys most of these — studies show that heating honey destroys up to 50% of its antioxidants and all of its enzymes.</p>
+      <h3>🌸 Pollen Content</h3>
+      <p>Raw honey contains natural pollen which has been linked to allergy relief, anti-inflammatory effects, and liver protection. Processed honey has virtually zero pollen — which also makes it impossible to trace its geographic origin.</p>
+      <h3>🎨 Appearance</h3>
+      <p>Raw honey is typically darker, cloudier, and may crystallize over time. Processed honey is clear, golden, and stays liquid for longer — but this comes at the cost of its nutritional value.</p>
+      <h3>⚠️ Adulteration</h3>
+      <p>Much of the "honey" sold in Nigerian markets is adulterated with sugar syrup, water, or artificial flavors. True raw honey like Tribe Hive is never mixed with anything — what you buy is pure, traceable honey from Nigerian beekeepers.</p>
+      <div class="highlight">A simple test: place a drop of honey on your thumb. If it spreads immediately, it may be diluted. Pure raw honey stays in place and is thick and sticky.</div>
+      <div class="article-cta">
+        <h3>🍯 Choose Real Honey</h3>
+        <p>Tribe Hive Honey is 100% raw, pure, and unprocessed — sourced directly from trusted Nigerian beekeepers.</p>
+        <button class="btn-primary" onclick="showPage('home'); setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),100)">Shop Now →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-view" id="article3">
+    <button class="article-back" onclick="showBlogGrid()">← Back to Blog</button>
+    <div class="article-header">
+      <div class="blog-tag">Natural Remedies</div>
+      <h1>How to Use Honey as a Natural Medicine at Home</h1>
+      <div class="article-meta">By Tribe Hive · Natural Remedies · 5 min read</div>
+    </div>
+    <div class="article-body">
+      <p>For thousands of years, honey has been one of humanity's most trusted medicines. Ancient Egyptians, Greeks, and traditional African healers all used honey to treat a wide range of conditions. Here are practical ways you can use Tribe Hive raw honey at home.</p>
+      <h2>For Sore Throat and Cough</h2>
+      <p>Mix 1–2 tablespoons of raw honey with the juice of half a lemon in a cup of warm (not boiling) water. Drink slowly 2–3 times a day. The honey coats and soothes the throat while fighting infection, and the lemon provides vitamin C to boost immunity.</p>
+      <h2>For Stomach Ulcers</h2>
+      <p>Take 1 tablespoon of raw honey on an empty stomach first thing in the morning, 30 minutes before breakfast. Do this consistently for several weeks. Many Nigerians have reported significant improvement in ulcer symptoms using this method.</p>
+      <h2>For Wounds and Cuts</h2>
+      <p>Clean the wound with clean water, then apply a thin layer of raw honey directly to the wound. Cover with a clean bandage. Change the dressing daily. Honey's antibacterial properties prevent infection and its moisturizing effect promotes faster healing.</p>
+      <h2>For Better Sleep</h2>
+      <p>Take 1 tablespoon of raw honey in warm milk or warm water about 30 minutes before bed. This helps the brain release melatonin and promotes deeper, more restful sleep.</p>
+      <h2>For Energy Before Exercise</h2>
+      <p>Take 1–2 tablespoons of raw honey about 30 minutes before exercise. The natural glucose and fructose provide immediate and sustained energy without the crash that comes from processed sugar or energy drinks.</p>
+      <h2>For Skin Care</h2>
+      <ul>
+        <li><strong>Face mask:</strong> Apply raw honey to clean face, leave for 15–20 minutes, rinse with warm water</li>
+        <li><strong>Acne treatment:</strong> Apply a small amount of honey directly to pimples overnight</li>
+        <li><strong>Moisturizer:</strong> Mix honey with a few drops of coconut oil for a natural body moisturizer</li>
+        <li><strong>Lip balm:</strong> Apply a tiny amount of honey to dry, chapped lips</li>
+      </ul>
+      <h2>For Immunity Boost</h2>
+      <p>Make a daily immunity tonic: mix 1 tablespoon raw honey + 1 teaspoon ginger juice + 1 teaspoon lemon juice + a pinch of turmeric in warm water. Drink every morning. This powerful combination supports your immune system, reduces inflammation, and improves overall health.</p>
+      <div class="highlight">Always use raw, unprocessed honey for medicinal purposes. Processed honey has been stripped of the enzymes and antioxidants that give honey its healing properties.</div>
+      <div class="article-cta">
+        <h3>🍯 Get Your Tribe Hive Honey</h3>
+        <p>Pure, raw, and ready to heal. Order today with delivery inclusive to anywhere in Nigeria.</p>
+        <button class="btn-primary" onclick="showPage('home'); setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),100)">Shop Now →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-view" id="article4">
+    <button class="article-back" onclick="showBlogGrid()">← Back to Blog</button>
+    <div class="article-header">
+      <div class="blog-tag">African Honey</div>
+      <h1>Why Nigerian Honey is Among the Best in the World</h1>
+      <div class="article-meta">By Tribe Hive · African Honey · 4 min read</div>
+    </div>
+    <div class="article-body">
+      <p>Nigeria is one of Africa's leading honey producers, and for good reason. The country's rich and diverse vegetation — from the savannah of the north to the rainforests of the south — provides bees with an extraordinary variety of nectar sources, resulting in honey that is uniquely rich, complex, and potent.</p>
+      <h2>Nigeria's Rich Floral Diversity</h2>
+      <p>Nigerian honey bees have access to thousands of plant species across the country's diverse ecological zones. From shea trees in the north to mangrove forests in the south, the variety of nectar sources gives Nigerian honey a distinctive flavor profile and exceptional nutritional richness that is hard to match.</p>
+      <h2>African Honey Bees Are Special</h2>
+      <p>African honey bees (Apis mellifera scutellata) are known to be more industrious and produce honey with higher concentrations of beneficial compounds compared to European honey bee species. Nigerian beekeepers work with these native bees, resulting in honey that is naturally more potent.</p>
+      <h2>Minimal Processing</h2>
+      <p>Traditional Nigerian beekeeping methods involve minimal interference with the honey. Unlike industrial honey production in some countries that involves excessive heating and filtering, Nigerian raw honey is typically extracted and bottled with minimal processing, preserving its natural goodness.</p>
+      <h2>Rich Dark Color = High Antioxidants</h2>
+      <p>You may notice that Tribe Hive Honey is darker than the light golden honey you see in some stores. This dark color is a sign of high antioxidant content. Studies consistently show that darker honeys contain more polyphenols and antioxidants than lighter varieties.</p>
+      <h2>Tribe Hive — Bringing Nigerian Honey to Your Door</h2>
+      <p>At Tribe Hive, we work directly with trusted Nigerian beekeepers to bring you the finest raw African honey. Our honey is harvested sustainably, bottled with care, and delivered fresh to your doorstep anywhere in Nigeria — with delivery already included in the price.</p>
+      <div class="highlight">When you buy Tribe Hive Honey, you are not just buying honey — you are supporting Nigerian beekeepers and choosing a healthier, more natural lifestyle.</div>
+      <div class="article-cta">
+        <h3>🍯 Taste the Difference</h3>
+        <p>Order your Tribe Hive Honey today. Pure Nigerian honey, delivered to your door.</p>
+        <button class="btn-primary" onclick="showPage('home'); setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),100)">Shop Now →</button>
+      </div>
+    </div>
+  </div>
+
+</section>
+</div><!-- END BLOG PAGE -->
+
 <div class="cart-overlay" id="cart-overlay" onclick="closeCartOnOverlay(event)">
   <div class="cart-panel">
     <div class="cart-header">
@@ -549,7 +835,26 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // PAGE NAVIGATION
+  // BLOG
+  function showArticle(id) {
+    document.getElementById('blog-grid-view').classList.add('hide');
+    document.querySelectorAll('.article-view').forEach(a => a.classList.remove('show'));
+    document.getElementById(id).classList.add('show');
+    window.scrollTo(0,0);
+  }
+  function showBlogGrid() {
+    document.getElementById('blog-grid-view').classList.remove('hide');
+    document.querySelectorAll('.article-view').forEach(a => a.classList.remove('show'));
+    window.scrollTo(0,0);
+  }
+  function toggleFaq(el) {
+    const answer = el.nextElementSibling;
+    const icon = el.querySelector('.faq-icon');
+    answer.classList.toggle('open');
+    icon.classList.toggle('open');
+  }
+
+  // PAGE NAV
   function showPage(page) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + page).classList.add('active');
