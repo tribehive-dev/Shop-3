@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -87,7 +87,7 @@
   .products-section { padding: 6rem 6vw; }
   .products-header { text-align: center; margin-bottom: 3.5rem; }
   .products-header p { color: #6B3B1A; font-size: 1rem; margin-top: 0.75rem; font-weight: 300; }
-  .honey-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; max-width: 960px; margin: 0 auto; }
+  .honey-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
   .product-card { background: white; border-radius: 20px; overflow: hidden; border: 1.5px solid #FDE68A; transition: transform 0.25s, box-shadow 0.25s; }
   .product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(180,83,9,0.15); }
   .card-img { width: 100%; height: 210px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
@@ -283,6 +283,8 @@
     <li><a onclick="showPage('media')">Gallery</a></li>
     <li><a onclick="showPage('reviews')">Reviews</a></li>
   <li><a onclick="showPage('blog')">Blog & FAQ</a></li>
+    <li><a onclick="showPage('about')">About Us</a></li>
+    <li><a onclick="showPage('contact')">Contact</a></li>
   </ul>
   <button class="cart-btn" onclick="openCart()">🛒 Cart <span id="cart-count">0</span></button>
 </nav>
@@ -376,7 +378,7 @@
       <div class="step">
         <div class="step-num">1</div>
         <h4>Choose Your Size</h4>
-        <p>Pick from 75cl, 1 Litre, or 1.5 Litres. All prices include delivery anywhere in Nigeria.</p>
+        <p>Pick from 40cl, 75cl, 1 Litre, or 1.5 Litres. All prices include delivery anywhere in Nigeria.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
@@ -410,7 +412,32 @@
     </div>
   </section>
 
-  <footer>
+  <!-- ABOUT & CONTACT BUTTONS -->
+  <section class="info-band">
+    <div class="info-band-grid">
+      <div class="info-band-card">
+        <div class="info-band-icon">🍯</div>
+        <h3>About Us</h3>
+        <p>Learn how Tribe Hive Honey began and how we bring pure honey from Nsukka to your table.</p>
+        <button class="btn-primary" onclick="showPage('about')">About Us →</button>
+      </div>
+      <div class="info-band-card">
+        <div class="info-band-icon">📞</div>
+        <h3>Contact Us</h3>
+        <p>Have a question or an order? Call, WhatsApp, email, or send us a message.</p>
+        <button class="btn-primary" onclick="showPage('contact')">Contact Us →</button>
+      </div>
+    </div>
+  </section>
+
+<footer>
+  <div class="footer-links">
+    <a onclick="showPage('about')">About Us</a>
+    <a onclick="showPage('contact')">Contact</a>
+    <a onclick="showPage('blog')">Blog & FAQ</a>
+    <a onclick="showPage('reviews')">Reviews</a>
+    <a onclick="showPage('privacy')">Privacy Policy</a>
+  </div>
     <div class="logo" onclick="showPage('home')">Tribe <span style="color:var(--amber-light)">Hive</span></div>
     <p>Pure. Original. Nigerian.<br>
       <a href="https://wa.me/2347034529060" target="_blank" class="wa-footer">
@@ -511,6 +538,7 @@
       <div class="form-group">
         <label>Product Purchased</label>
         <select id="r-product">
+          <option value="Tribe Hive Honey — 40cl">Tribe Hive Honey — 40cl</option>
           <option value="Tribe Hive Honey — 75cl">Tribe Hive Honey — 75cl</option>
           <option value="Tribe Hive Honey — 1 Litre" selected>Tribe Hive Honey — 1 Litre</option>
           <option value="Tribe Hive Honey — 1.5 Litres">Tribe Hive Honey — 1.5 Litres</option>
@@ -535,6 +563,188 @@
     </div>
   </section>
 </div><!-- END REVIEWS PAGE -->
+
+<style>
+  .info-band { padding: 4rem 6vw; background: var(--cream); }
+  .info-band-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+  .info-band-card { background: white; border: 1.5px solid #FDE68A; border-radius: 20px; padding: 2rem; text-align: center; box-shadow: 0 8px 30px rgba(180,83,9,0.08); }
+  .info-band-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .info-band-card h3 { font-family: 'Playfair Display', serif; color: var(--brown-deep); font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .info-band-card p { color: #7C3B1E; font-weight: 300; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.25rem; }
+  .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.25rem; margin-bottom: 1.5rem; }
+  .footer-links a { cursor: pointer; color: var(--amber-glow); font-weight: 500; }
+  .footer-links a:hover { text-decoration: underline; }
+  .page-wrap { padding: 100px 6vw 5rem; min-height: 100vh; background: var(--cream); }
+  .page-hero { background: linear-gradient(135deg, var(--brown-deep), var(--brown)); padding: 3rem 2rem; border-radius: 20px; text-align: center; margin: 0 auto 2.5rem; max-width: 900px; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; color: var(--amber-glow); font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.6rem; }
+  .page-hero p { color: #D6B89A; font-weight: 300; font-size: 1rem; }
+  .page-content { max-width: 800px; margin: 0 auto; color: #4A2000; font-weight: 300; line-height: 1.9; font-size: 0.95rem; }
+  .page-content h2 { font-family: 'Playfair Display', serif; color: var(--brown-deep); font-size: 1.4rem; margin: 2rem 0 0.75rem; }
+  .page-content p { margin-bottom: 1rem; }
+  .page-content ul { margin: 0.5rem 0 1rem 1.5rem; }
+  .page-content li { margin-bottom: 0.4rem; }
+  .page-content a { color: var(--amber); }
+  .promise-item { display: flex; gap: 1rem; background: white; border: 1px solid #FDE68A; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 0.9rem; }
+  .promise-item .ic { font-size: 1.4rem; flex-shrink: 0; }
+  .signature { margin-top: 2rem; padding: 1.5rem; background: var(--cream-dark); border-left: 4px solid var(--amber); border-radius: 0 14px 14px 0; }
+  .signature .sig-name { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--brown-deep); font-size: 1.1rem; }
+  .page-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 2.5rem; }
+  .contact-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; max-width: 900px; margin: 0 auto 2.5rem; }
+  .contact-info-card { background: white; border: 1.5px solid #FDE68A; border-radius: 16px; padding: 1.5rem; box-shadow: 0 6px 20px rgba(180,83,9,0.07); }
+  .contact-info-card .ci-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .contact-info-card h4 { font-family: 'Playfair Display', serif; color: var(--brown-deep); font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .contact-info-card p, .contact-info-card a { display: block; color: #7C3B1E; font-size: 0.9rem; font-weight: 400; line-height: 1.7; text-decoration: none; }
+  .contact-info-card a:hover { color: var(--amber); }
+  .wa-chat-btn { display: inline-flex !important; align-items: center; gap: 0.4rem; background: #25D366; color: white !important; padding: 0.45rem 1.1rem; border-radius: 100px; font-weight: 600; margin-top: 0.6rem; }
+  .contact-status { display: none; margin-top: 1rem; padding: 0.9rem 1rem; border-radius: 12px; font-weight: 600; font-size: 0.9rem; text-align: center; }
+  .contact-status.success { background: #DCFCE7; color: var(--green); }
+  .contact-status.error { background: #FEE2E2; color: #B91C1C; }
+  @media (max-width: 768px) { .info-band-grid, .contact-grid2 { grid-template-columns: 1fr; } }
+</style>
+
+<!-- ========== ABOUT PAGE ========== -->
+<div class="page" id="page-about">
+  <section class="page-wrap">
+    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+    <div class="page-hero">
+      <h1>About Tribe Hive Honey</h1>
+      <p>Pure Nigerian honey, from the hive in Nsukka to your table.</p>
+    </div>
+    <div class="page-content">
+      <h2>Our Story: Why and When We Started</h2>
+      <p>Tribe Hive Honey was born in March 2026 out of a deep passion for wellness and natural living. After reading extensively about the incredible health benefits of pure, unadulterated honey, I felt an undeniable pull to make authentic, nutrient-rich honey easily accessible to everyone. What started as personal research into natural health quickly grew into a mission to share nature's finest superfood with families across the country.</p>
+
+      <h2>From Nsukka to Your Table: Our Process</h2>
+      <p>Quality begins at the source. We partner directly with local beekeepers in Nsukka, Enugu State, Nigeria, a region celebrated for its rich flora and traditional beekeeping heritage. Rather than buying pre-processed honey, we receive the harvest straight from the hive, still sealed in its natural honeycomb wax. We then carefully squeeze the wax ourselves to extract the pure, golden honey before bottling it into convenient can sizes (40 cl, 75 cl, 1 litre, and 1.5 litres) to suit every household need. By handling the extraction personally, we guarantee that every drop is 100% raw, unfiltered, and completely free from additives or dilution.</p>
+
+      <h2>Our Promise to You</h2>
+      <p>At Tribe Hive Honey, you aren't just buying a jar of sweetener; you are supporting local Nigerian beekeepers and investing in your health. When you choose us, I want you to know that:</p>
+      <div class="promise-item"><div class="ic">✅</div><div><strong>Purity is non-negotiable:</strong> Because we extract the honey directly from the wax ourselves, you get honey exactly as nature intended, packed with all its natural enzymes, antioxidants, and health benefits.</div></div>
+      <div class="promise-item"><div class="ic">✅</div><div><strong>We value transparency and trust:</strong> You deserve to know where your food comes from and how it is handled. From the apiaries of Nsukka to your kitchen, our process is simple, clean, and honest.</div></div>
+      <div class="promise-item"><div class="ic">✅</div><div><strong>Community matters:</strong> The name "Tribe Hive" reflects our belief in building a community centered around good health, local craftsmanship, and mutual trust. With nationwide delivery, we bring that goodness right to your doorstep, wherever you are in Nigeria.</div></div>
+
+      <p style="margin-top:1.5rem">Thank you for welcoming Tribe Hive Honey into your home and making us a part of your daily wellness journey.</p>
+      <div class="signature">
+        <div>Warm regards,</div>
+        <div class="sig-name">Revd. Mrs. Chinyere Breath Ihegazie</div>
+        <div>Founder, Tribe Hive Honey</div>
+      </div>
+
+      <div class="page-actions">
+        <button class="btn-primary" onclick="showPage('home'); setTimeout(()=>document.getElementById('products').scrollIntoView({behavior:'smooth'}),100)">Shop Our Honey</button>
+        <button class="btn-outline" onclick="showPage('contact')">Contact Us</button>
+      </div>
+    </div>
+  </section>
+</div><!-- END ABOUT PAGE -->
+
+<!-- ========== CONTACT PAGE ========== -->
+<div class="page" id="page-contact">
+  <section class="page-wrap">
+    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+    <div class="page-hero">
+      <h1>Contact Us</h1>
+      <p>We'd love to hear from you. Reach us any way that suits you.</p>
+    </div>
+
+    <div class="contact-grid2">
+      <div class="contact-info-card">
+        <div class="ci-icon">📍</div>
+        <h4>Our Address</h4>
+        <p>Flat 6, 27 Oshika Road, Ifo Layout, by Ugboezeji – Abapka Nike, Enugu East, Enugu State, Nigeria</p>
+      </div>
+      <div class="contact-info-card">
+        <div class="ci-icon">📞</div>
+        <h4>Phone</h4>
+        <a href="tel:+2349014332741">09014332741</a>
+        <a href="tel:+2347034529060">07034529060</a>
+        <a class="wa-chat-btn" href="https://wa.me/2347034529060" target="_blank">💬 Chat on WhatsApp</a>
+      </div>
+      <div class="contact-info-card">
+        <div class="ci-icon">📧</div>
+        <h4>Email</h4>
+        <a href="mailto:orders@tribehive.com.ng">orders@tribehive.com.ng</a>
+      </div>
+      <div class="contact-info-card">
+        <div class="ci-icon">🕗</div>
+        <h4>Working Hours</h4>
+        <p>Monday to Saturday<br>8:00am – 6:00pm</p>
+      </div>
+    </div>
+
+    <div class="review-form-card">
+      <h3>✉ Send Us a Message</h3>
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="c-name" placeholder="e.g. Chidi Okafor">
+      </div>
+      <div class="form-group">
+        <label>Phone Number or Email</label>
+        <input type="text" id="c-contact" placeholder="So we can reply to you">
+      </div>
+      <div class="form-group">
+        <label>Your Message</label>
+        <textarea id="c-msg" placeholder="How can we help you?"></textarea>
+      </div>
+      <button class="submit-review-btn" id="c-btn" onclick="submitContact()">Send Message ✉</button>
+      <div class="contact-status" id="c-status"></div>
+    </div>
+  </section>
+</div><!-- END CONTACT PAGE -->
+
+<!-- ========== PRIVACY POLICY PAGE ========== -->
+<div class="page" id="page-privacy">
+  <section class="page-wrap">
+    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+    <div class="page-hero">
+      <h1>Privacy Policy</h1>
+      <p>Last updated: November 11, 2026</p>
+    </div>
+    <div class="page-content">
+      <p>Tribe Hive Honey ("we", "us") operates tribehive.com.ng. This policy explains what information we collect, how we use it, and the choices you have. By using this website you agree to this policy.</p>
+
+      <h2>Information We Collect</h2>
+      <ul>
+        <li><strong>Reviews:</strong> if you submit a review, we collect your name, location, the product you bought, your rating, and your comment. These are displayed publicly on the website.</li>
+        <li><strong>Contact messages:</strong> if you use the contact form, we collect your name, your phone number or email, and your message.</li>
+        <li><strong>Orders:</strong> orders are placed through WhatsApp. We receive the details you send us, such as your order, delivery address, and payment receipt.</li>
+        <li><strong>Automatic information:</strong> like most websites, our hosting and advertising partners may collect technical data such as your browser type, device, and pages visited, using cookies and similar technologies.</li>
+      </ul>
+
+      <h2>How We Use Your Information</h2>
+      <ul>
+        <li>To process and deliver your orders and confirm payments</li>
+        <li>To reply to your questions and messages</li>
+        <li>To display customer reviews</li>
+        <li>To improve our website and show relevant advertising</li>
+      </ul>
+
+      <h2>Google AdSense, Advertising and Cookies</h2>
+      <p>We use Google AdSense to display ads. Third-party vendors, including Google, use cookies to serve ads based on your previous visits to this website and other websites. Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to this site and/or other sites on the internet.</p>
+      <p>You can opt out of personalised advertising by visiting <a href="https://adssettings.google.com" target="_blank">Google Ads Settings</a>. To learn how Google uses data from sites that use its services, visit <a href="https://policies.google.com/technologies/ads" target="_blank">policies.google.com/technologies/ads</a>.</p>
+
+      <h2>Payments</h2>
+      <p>We do not collect or store card details or PINs on this website. Payments are made by transfer to our Opay business account. We will never ask you for your PIN or password.</p>
+
+      <h2>Third-Party Services</h2>
+      <p>This website uses third-party services that may process your data under their own policies: GitHub Pages (hosting), Supabase (storing reviews and contact messages), YouTube (embedded video), Google Fonts, Google AdSense, and WhatsApp (orders and enquiries).</p>
+
+      <h2>Children's Privacy</h2>
+      <p>Our website is not directed at children under 13, and we do not knowingly collect their personal information.</p>
+
+      <h2>Your Rights</h2>
+      <p>We handle personal data in line with applicable Nigerian data protection law, including the Nigeria Data Protection Act 2023. You may ask us to correct or delete your review or message at any time by contacting us.</p>
+
+      <h2>Changes to This Policy</h2>
+      <p>We may update this policy from time to time. The latest version will always be on this page with its update date.</p>
+
+      <h2>Contact Us</h2>
+      <p>Tribe Hive Honey, Flat 6, 27 Oshika Road, Ifo Layout, by Ugboezeji – Abapka Nike, Enugu East, Enugu State, Nigeria.<br>
+      Email: <a href="mailto:orders@tribehive.com.ng">orders@tribehive.com.ng</a><br>
+      Phone: 09014332741, 07034529060</p>
+    </div>
+  </section>
+</div><!-- END PRIVACY PAGE -->
 
 <!-- ========== BLOG & FAQ PAGE ========== -->
 <div class="page" id="page-blog">
@@ -847,6 +1057,45 @@
     document.querySelectorAll('.article-view').forEach(a => a.classList.remove('show'));
     window.scrollTo(0,0);
   }
+  // CONTACT FORM
+  async function submitContact() {
+    const name = document.getElementById('c-name').value.trim();
+    const contact = document.getElementById('c-contact').value.trim();
+    const message = document.getElementById('c-msg').value.trim();
+    const status = document.getElementById('c-status');
+    const btn = document.getElementById('c-btn');
+    status.style.display = 'block';
+    if (!name || !contact || !message) {
+      status.className = 'contact-status error';
+      status.textContent = 'Please fill in your name, phone/email, and message.';
+      return;
+    }
+    btn.disabled = true; btn.textContent = 'Sending...';
+    try {
+      await dbFetch('contact_messages', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify({ name, contact, message }) });
+      status.className = 'contact-status success';
+      status.textContent = 'Thank you! Your message has been sent. We will get back to you soon.';
+      document.getElementById('c-name').value = '';
+      document.getElementById('c-contact').value = '';
+      document.getElementById('c-msg').value = '';
+    } catch(e) {
+      status.className = 'contact-status error';
+      status.textContent = 'Could not send your message. Please WhatsApp us on 07034529060.';
+    }
+    btn.disabled = false; btn.textContent = 'Send Message ✉';
+  }
+
+  // PAGE LINKS (e.g. tribehive.com.ng/#privacy)
+  const _showPage = showPage;
+  showPage = function(p) {
+    _showPage(p);
+    try { history.replaceState(null, '', p === 'home' ? location.pathname : '#' + p); } catch(e) {}
+  };
+  (function() {
+    const h = location.hash.slice(1);
+    if (h && document.getElementById('page-' + h)) _showPage(h);
+  })();
+
   function toggleFaq(el) {
     const answer = el.nextElementSibling;
     const icon = el.querySelector('.faq-icon');
@@ -863,6 +1112,9 @@
 
   // PRODUCTS
   const products = [
+    { id:4, name:"Tribe Hive Honey", size:"40cl", tag:"Trial Size", emoji:"🍯",
+      bg:"linear-gradient(135deg,#FBBF24 0%,#D97706 60%,#B45309 100%)",
+      desc:"A small bottle of pure, raw African honey. Ideal for trying Tribe Hive for the first time, or for gifting.", price:7000, stars:5 },
     { id:1, name:"Tribe Hive Honey", size:"75cl", tag:"Starter Size", emoji:"🍯",
       bg:"linear-gradient(135deg,#D97706 0%,#B45309 60%,#92400E 100%)",
       desc:"Perfect starter size. Raw, unfiltered African honey from trusted Nigerian beekeepers. Rich, thick and naturally sweet.", price:16000, stars:5 },
