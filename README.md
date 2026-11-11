@@ -1114,7 +1114,7 @@
   const products = [
     { id:4, name:"Tribe Hive Honey", size:"40cl", tag:"Trial Size", emoji:"🍯",
       bg:"linear-gradient(135deg,#FBBF24 0%,#D97706 60%,#B45309 100%)",
-      desc:"A small bottle of pure, raw African honey. Ideal for trying Tribe Hive for the first time, or for gifting.", price:7000, stars:5 },
+      desc:"A small bottle of pure, raw African honey. Ideal for trying Tribe Hive for the first time, or for gifting.", price:11000, stars:5 },
     { id:1, name:"Tribe Hive Honey", size:"75cl", tag:"Starter Size", emoji:"🍯",
       bg:"linear-gradient(135deg,#D97706 0%,#B45309 60%,#92400E 100%)",
       desc:"Perfect starter size. Raw, unfiltered African honey from trusted Nigerian beekeepers. Rich, thick and naturally sweet.", price:16000, stars:5 },
